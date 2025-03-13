@@ -32,4 +32,12 @@ if (!@include("parts/footer.php")) {
 ?>
 
 
+<?php
+include 'footer.php';
+?>
+
 </html>
+
+
+<?php include("functions.php"); ?>
+<?php echo loadBanner("data/banner.json"); ?>
