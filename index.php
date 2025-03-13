@@ -30,14 +30,14 @@ if (!@include("parts/footer.php")) {
     echo "Failed to include parts/footer.php"; 
 }
 ?>
-
-
-<?php
-include 'footer.php';
+<?php 
+if (!@include("parts/header.php")) { 
+    echo "Failed to include parts/footer.php"; 
+}
 ?>
-
-</html>
 
 
 <?php include("functions.php"); ?>
 <?php echo loadBanner("data.json"); ?>
+
+</html>
