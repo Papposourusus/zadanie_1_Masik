@@ -40,4 +40,4 @@ include 'footer.php';
 
 
 <?php include("functions.php"); ?>
-<?php echo loadBanner("data/banner.json"); ?>
+<?php echo loadBanner("data.json"); ?>
