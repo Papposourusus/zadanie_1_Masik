@@ -25,19 +25,20 @@ https://templatemo.com/tm-559-zay-shop
 -->
 </head>
 
+<body>
+    <?php if (!@include("parts/header.php")) { 
+    echo "Failed to include parts/footer.php"; 
+} ?>
 <?php 
 if (!@include("parts/footer.php")) { 
     echo "Failed to include parts/footer.php"; 
 }
 ?>
 
+    <?php include("functions.php"); ?>
+    <?php echo loadBanner("data.json"); ?>
+</body>
 
-<?php
-include 'footer.php';
-?>
+
 
 </html>
-
-
-<?php include("functions.php"); ?>
-<?php echo loadBanner("data.json"); ?>
