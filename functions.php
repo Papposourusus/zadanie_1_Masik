@@ -1,24 +1,31 @@
 <?php
 function loadBanner($jsonFile) {
     if (!file_exists($jsonFile)) {
-        return "<p>Banner data not found.</p>";
+        return "<p>Banner neeexistuje.</p>";
     }
 
     $data = json_decode(file_get_contents($jsonFile), true);
 
     if (!$data) {
-        return "<p>Invalid banner data.</p>";
+        return "<p>Tak to ti nepojde</p>";
     }
+
+    $image = htmlspecialchars($data["image"]);
+    $title = htmlspecialchars($data["title"]);
+    $subtitle = htmlspecialchars($data["subtitle"]);
+    $url = htmlspecialchars($data["url"]);
 
     return '
     <div class="banner">
-        <img src="' . htmlspecialchars($data["image"]) . '" alt="Banner">
-        <h1>' . htmlspecialchars($data["title"]) . '</h1>
-        <p>' . htmlspecialchars($data["subtitle"]) . '</p>
-        <strong>' . htmlspecialchars($data["message"]) . '</strong> <!-- Nový nápis -->
+        <a href="' . $url . '" target="_blank">
+            <img src="' . $image . '" alt="Banner">
+        </a>
+        <h1>' . $title . '</h1>
+        <p>' . $subtitle . '</p>
     </div>';
 }
 ?>
+
 
 
 <?php
