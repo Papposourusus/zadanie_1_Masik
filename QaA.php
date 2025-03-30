@@ -37,3 +37,9 @@ try {
     echo $e->getMessage();
 }
 ?>
+
+<body>
+<?php 
+    require_once("parts/header.php"); // Bez @, ak chýba, zobrazí chybu
+    ?>
+</body>    
