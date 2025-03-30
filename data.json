@@ -1,7 +1,11 @@
 {
     "title": "Vitaj",
     "subtitle": "______________________________.",
-    "image": "assets/img/brand_01.png",
+    "image": {
+        "src": "assets/img/brand_01.png",
+        "width": 200,
+        "height": 100
+    },
     "url": "https://logos-world.net/wp-content/uploads/2020/04/Levis-Logo-1969-2003.png",
     "message": "Najlepšie ponuky nájdete u nás!",
     "questions": [
@@ -19,5 +23,3 @@
         }
     ]
 }
-
-

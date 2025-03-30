@@ -1,7 +1,7 @@
 <?php
 function loadBanner($jsonFile) {
     if (!file_exists($jsonFile)) {
-        return "<p>Banner neeexistuje.</p>";
+        return "<p>Banner neexistuje.</p>";
     }
 
     $data = json_decode(file_get_contents($jsonFile), true);
@@ -10,7 +10,10 @@ function loadBanner($jsonFile) {
         return "<p>Tak to ti nepojde</p>";
     }
 
-    $image = htmlspecialchars($data["image"]);
+    $imageData = $data["image"];
+    $imageSrc = htmlspecialchars($imageData["src"]);
+    $imageWidth = htmlspecialchars($imageData["width"]);
+    $imageHeight = htmlspecialchars($imageData["height"]);
     $title = htmlspecialchars($data["title"]);
     $subtitle = htmlspecialchars($data["subtitle"]);
     $url = htmlspecialchars($data["url"]);
@@ -18,7 +21,7 @@ function loadBanner($jsonFile) {
     return '
     <div class="banner">
         <a href="' . $url . '" target="_blank">
-            <img src="' . $image . '" alt="Banner">
+            <img src="' . $imageSrc . '" width="' . $imageWidth . '" height="' . $imageHeight . '" alt="Banner">
         </a>
         <h1>' . $title . '</h1>
         <p>' . $subtitle . '</p>
