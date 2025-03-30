@@ -36,7 +36,7 @@ form textarea:focus {
 
 form textarea {
     height: 120px;
-    resize: none; /* Zabránenie zmene veľkosti */
+    resize: none; 
 }
 
 form button {
@@ -57,3 +57,71 @@ form button:hover {
     background-color: #0277bd;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
+
+
+
+
+
+/* Sekcia pre komentáre */
+.comments-container {
+    background: linear-gradient(to bottom, #ffffff, #e3f2fd);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+
+.comments-container h2 {
+    text-align: center;
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #0288d1;
+    padding-bottom: 5px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.comments-container div {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.comments-container div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.comments-container p {
+    margin: 8px 0;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+.comments-container p strong {
+    color: #0288d1;
+    font-size: 1.1em;
+}
+
+.comments-container p em {
+    font-size: 0.9em;
+    color: #888;
+    display: block;
+    margin-top: 10px;
+}
+
+/* Oddelenie komentárov */
+.comments-container hr {
+    border: none;
+    height: 1px;
+    background: #ddd;
+}
+
+
