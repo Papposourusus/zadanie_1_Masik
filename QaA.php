@@ -1,45 +1,71 @@
 <?php
-class QnA {
-    private $pdo;
+$host = "localhost";
+$dbname = "comments_db";
+$username = "root";
+$password = "";
 
-    // Constructor - Pripojenie k databáze
-    public function __construct($host, $dbname, $username, $password) {
-        try {
-            $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8";
-            $this->pdo = new PDO($dsn, $username, $password);
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            die("Chyba pripojenia k databáze: " . $e->getMessage());
-        }
-    }
-
-    // Metóda na čítanie otázok a odpovedí
-    public function getQuestionsAndAnswers() {
-        try {
-            $stmt = $this->pdo->query("SELECT question, answer FROM questions_answers");
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            die("Chyba pri získavaní otázok a odpovedí: " . $e->getMessage());
-        }
-    }
-}
-
-// Príklad použitia
 try {
-    $qna = new QnA("localhost", "qna_db", "root", ""); // Použite správne prihlasovacie údaje pre XAMPP
-    $questionsAndAnswers = $qna->getQuestionsAndAnswers();
-
-    foreach ($questionsAndAnswers as $qa) {
-        echo "<strong>Otázka:</strong> " . htmlspecialchars($qa['question']) . "<br>";
-        echo "<strong>Odpoveď:</strong> " . htmlspecialchars($qa['answer']) . "<br><br>";
-    }
-} catch (Exception $e) {
-    echo $e->getMessage();
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Chyba pripojenia k databáze: " . $e->getMessage());
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars($_POST["name"]);
+    $email = htmlspecialchars($_POST["email"]);
+    $comment = htmlspecialchars($_POST["comment"]);
+
+    if (!empty($name) && !empty($email) && !empty($comment)) {
+        $stmt = $pdo->prepare("INSERT INTO comments (name, email, comment) VALUES (:name, :email, :comment)");
+        $stmt->execute([
+            ":name" => $name,
+            ":email" => $email,
+            ":comment" => $comment
+        ]);
+    }
+}
+
+$comments = $pdo->query("SELECT name, email, comment, created_at FROM comments ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulár a komentáre</title>
+</head>
 <body>
 <?php 
-    require_once("parts/header.php"); // Bez @, ak chýba, zobrazí chybu
+    require_once("parts/header.php"); 
     ?>
-</body>    
+    <!-- Formulár -->
+    <h1>Pridajte komentár</h1>
+    <form method="POST" action="">
+        <label for="name">Meno:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="comment">Komentár:</label>
+        <textarea id="comment" name="comment" required></textarea><br>
+
+        <button type="submit">Odoslať</button>
+    </form>
+
+    <!-- Zobrazenie komentárov -->
+    <h2>Komentáre</h2>
+    <?php foreach ($comments as $c): ?>
+        <div>
+            <p><strong>Meno:</strong> <?= htmlspecialchars($c["name"]) ?></p>
+            <p><strong>Email:</strong> <?= htmlspecialchars($c["email"]) ?></p>
+            <p><strong>Komentár:</strong> <?= htmlspecialchars($c["comment"]) ?></p>
+            <p><em>Pridané:</em> <?= $c["created_at"] ?></p>
+        </div>
+        <hr>
+    <?php endforeach; ?>
+</body>
+</html>
+   
