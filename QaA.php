@@ -34,6 +34,7 @@ $comments = $pdo->query("SELECT name, email, comment, created_at FROM comments O
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Formulár a komentáre</title>
 </head>
 <body>
@@ -66,6 +67,13 @@ $comments = $pdo->query("SELECT name, email, comment, created_at FROM comments O
         </div>
         <hr>
     <?php endforeach; ?>
+
+
+
+
+    <?php 
+    require_once("parts/footer.php"); 
+    ?>
 </body>
 </html>
    
