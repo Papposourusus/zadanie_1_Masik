@@ -41,7 +41,7 @@ $comments = $pdo->query("SELECT name, email, comment, created_at FROM comments O
 <?php 
     require_once("parts/header.php"); 
     ?>
-    <!-- Formulár -->
+   
     <h1>Pridajte komentár</h1>
     <form method="POST" action="">
         <label for="name">Meno:</label>
