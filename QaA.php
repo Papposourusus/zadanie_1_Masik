@@ -56,7 +56,7 @@ $comments = $pdo->query("SELECT name, email, comment, created_at FROM comments O
         <button type="submit">Odoslať</button>
     </form>
 
-    <!-- Zobrazenie komentárov -->
+   
     <div class="comments-container">
     <h2>Komentáre</h2>
     <?php foreach ($comments as $c): ?>
