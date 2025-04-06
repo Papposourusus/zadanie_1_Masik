@@ -48,7 +48,7 @@ class QnA {
 
 
 <?php
-require_once __DIR__ . '/QnA.php'; 
+
 
 use MyProject\QnA;
 
