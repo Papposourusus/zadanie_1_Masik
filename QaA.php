@@ -13,55 +13,47 @@ class QnA {
         }
     }
 
-    // Pridanie otázky a odpovede s kontrolou duplikátov
-    public function addQuestionAnswer($question, $answer) {
+    // Pridanie mena, priezviska, emailu a komentára
+    public function addComment($firstName, $lastName, $email, $comment) {
         try {
-            $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM questions_answers WHERE question = :question AND answer = :answer");
+            $stmt = $this->pdo->prepare("INSERT INTO comments (first_name, last_name, email, comment) VALUES (:first_name, :last_name, :email, :comment)");
             $stmt->execute([
-                ":question" => $question,
-                ":answer" => $answer
+                ":first_name" => $firstName,
+                ":last_name" => $lastName,
+                ":email" => $email,
+                ":comment" => $comment
             ]);
-            $count = $stmt->fetchColumn();
-
-            if ($count == 0) {
-                // Ak záznam neexistuje, vložte ho do databázy
-                $stmt = $this->pdo->prepare("INSERT INTO questions_answers (question, answer) VALUES (:question, :answer)");
-                $stmt->execute([
-                    ":question" => $question,
-                    ":answer" => $answer
-                ]);
-                echo "Otázka a odpoveď boli úspešne pridané.";
-            } else {
-                echo "Táto otázka a odpoveď už existujú v databáze.";
-            }
+            echo "Komentár bol úspešne pridaný.";
         } catch (PDOException $e) {
-            die("Chyba pri vkladaní otázky a odpovede: " . $e->getMessage());
+            die("Chyba pri vkladaní komentára: " . $e->getMessage());
         }
     }
 
-    // Načítanie otázok a odpovedí z databázy
-    public function getQuestionsAndAnswers() {
+    // Načítanie komentárov z databázy
+    public function getComments() {
         try {
-            $stmt = $this->pdo->query("SELECT question, answer FROM questions_answers");
+            $stmt = $this->pdo->query("SELECT first_name, last_name, email, comment, created_at FROM comments ORDER BY created_at DESC");
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            die("Chyba pri získavaní otázok a odpovedí: " . $e->getMessage());
+            die("Chyba pri získavaní komentárov: " . $e->getMessage());
         }
     }
 }
 
 // Pripojenie k databáze
-$qna = new QnA("localhost", "qna_db", "root", "");
+$qna = new QnA("localhost", "comments_db", "root", "");
 
-// Spracovanie formulára na pridanie otázky a odpovede
+// Spracovanie formulára na pridanie komentára
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $question = $_POST['question'] ?? '';
-    $answer = $_POST['answer'] ?? '';
-    $qna->addQuestionAnswer($question, $answer);
+    $firstName = $_POST['first_name'] ?? '';
+    $lastName = $_POST['last_name'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $comment = $_POST['comment'] ?? '';
+    $qna->addComment($firstName, $lastName, $email, $comment);
 }
 
-// Načítanie otázok a odpovedí
-$questionsAndAnswers = $qna->getQuestionsAndAnswers();
+// Načítanie komentárov
+$comments = $qna->getComments();
 ?>
 
 <!DOCTYPE html>
@@ -69,30 +61,40 @@ $questionsAndAnswers = $qna->getQuestionsAndAnswers();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Otázky a odpovede</title>
+    <title>Komentáre</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Otázky a odpovede</h1>
+    <h1>Komentáre</h1>
     
     <!-- Formulár -->
     <form method="POST">
-        <label for="question">Otázka:</label>
-        <textarea id="question" name="question" required></textarea><br>
-        <label for="answer">Odpoveď:</label>
-        <textarea id="answer" name="answer" required></textarea><br>
-        <button type="submit">Pridať</button>
+        <label for="first_name">Meno:</label>
+        <input type="text" id="first_name" name="first_name" required><br>
+
+        <label for="last_name">Priezvisko:</label>
+        <input type="text" id="last_name" name="last_name" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="comment">Komentár:</label>
+        <textarea id="comment" name="comment" required></textarea><br>
+
+        <button type="submit">Odoslať</button>
     </form>
 
-    <!-- Zobrazenie otázok a odpovedí -->
-    <div class="questions-container">
-        <?php foreach ($questionsAndAnswers as $qa): ?>
+    <!-- Zobrazenie komentárov -->
+    <div class="comments-container">
+        <?php foreach ($comments as $c): ?>
             <div>
-                <p><strong>Otázka:</strong> <?= htmlspecialchars($qa['question']) ?></p>
-                <p><strong>Odpoveď:</strong> <?= htmlspecialchars($qa['answer']) ?></p>
+                <p><strong>Meno:</strong> <?= htmlspecialchars($c["first_name"]) ?> <?= htmlspecialchars($c["last_name"]) ?></p>
+                <p><strong>Email:</strong> <?= htmlspecialchars($c["email"]) ?></p>
+                <p><strong>Komentár:</strong> <?= htmlspecialchars($c["comment"]) ?></p>
+                <p><em>Pridané:</em> <?= $c["created_at"] ?></p>
             </div>
+            <hr>
         <?php endforeach; ?>
     </div>
 </body>
 </html>
-?>
