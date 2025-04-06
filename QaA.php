@@ -2,7 +2,7 @@
 
 require_once("parts/header.php"); 
 
-require_once 'QnA.php';
+require_once __DIR__ . '/QnA.php';
 
 use MyProject\QnA;
 
