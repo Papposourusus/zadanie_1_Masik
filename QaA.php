@@ -1,10 +1,57 @@
 <?php
+namespace MyProject;
 
-require_once("parts/header.php"); 
+use PDO;
+use PDOException;
 
-require_once __DIR__ . '/QnA.php';
+class QnA {
+    private $pdo;
+
+    
+    public function __construct($host, $dbname, $username, $password) {
+        try {
+            $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8";
+            $this->pdo = new PDO($dsn, $username, $password);
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die("Chyba pripojenia k databáze: " . $e->getMessage());
+        }
+    }
+
+   
+    public function addComment($firstName, $lastName, $email, $comment) {
+        try {
+            $stmt = $this->pdo->prepare("INSERT INTO comments (first_name, last_name, email, comment) VALUES (:first_name, :last_name, :email, :comment)");
+            $stmt->execute([
+                ":first_name" => $firstName,
+                ":last_name" => $lastName,
+                ":email" => $email,
+                ":comment" => $comment
+            ]);
+            echo "Komentár bol úspešne pridaný.";
+        } catch (PDOException $e) {
+            die("Chyba pri vkladaní komentára: " . $e->getMessage());
+        }
+    }
+
+
+    public function getComments() {
+        try {
+            $stmt = $this->pdo->query("SELECT first_name, last_name, email, comment, created_at FROM comments ORDER BY created_at DESC");
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die("Chyba pri získavaní komentárov: " . $e->getMessage());
+        }
+    }
+}
+?>
+
+
+<?php
+require_once __DIR__ . '/QnA.php'; 
 
 use MyProject\QnA;
+
 
 $qna = new QnA("localhost", "comments_db", "root", "");
 
@@ -32,7 +79,7 @@ $comments = $qna->getComments();
 <body>
     <h1>Komentáre</h1>
     
-  
+
     <form method="POST">
         <label for="first_name">Meno:</label>
         <input type="text" id="first_name" name="first_name" required><br>
@@ -49,7 +96,6 @@ $comments = $qna->getComments();
         <button type="submit">Odoslať</button>
     </form>
 
-   
     <div class="comments-container">
         <?php foreach ($comments as $c): ?>
             <div>
@@ -61,9 +107,5 @@ $comments = $qna->getComments();
             <hr>
         <?php endforeach; ?>
     </div>
-
-    <?php 
-    require_once("parts/footer.php"); 
-    ?>
 </body>
 </html>
