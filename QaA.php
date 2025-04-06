@@ -1,5 +1,7 @@
 <?php
-require_once("parts/header.php");
+
+
+
 namespace MyProject;
 
 use PDO;
@@ -50,7 +52,7 @@ class QnA {
 
 <?php
 
-
+require_once("parts/header.php");
 use MyProject\QnA;
 
 
