@@ -6,7 +6,6 @@ require_once 'QnA.php';
 
 use MyProject\QnA;
 
-
 $qna = new QnA("localhost", "comments_db", "root", "");
 
 
@@ -17,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $comment = $_POST['comment'] ?? '';
     $qna->addComment($firstName, $lastName, $email, $comment);
 }
+
 
 $comments = $qna->getComments();
 ?>
@@ -32,7 +32,7 @@ $comments = $qna->getComments();
 <body>
     <h1>Komentáre</h1>
     
-   
+  
     <form method="POST">
         <label for="first_name">Meno:</label>
         <input type="text" id="first_name" name="first_name" required><br>
@@ -49,7 +49,7 @@ $comments = $qna->getComments();
         <button type="submit">Odoslať</button>
     </form>
 
-
+   
     <div class="comments-container">
         <?php foreach ($comments as $c): ?>
             <div>
