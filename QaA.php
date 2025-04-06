@@ -1,4 +1,6 @@
 <?php
+
+require_once("parts/header.php"); 
 class QnA {
     private $pdo;
 
@@ -96,5 +98,11 @@ $comments = $qna->getComments();
             <hr>
         <?php endforeach; ?>
     </div>
+
+
+
+    <?php 
+    require_once("parts/footer.php"); 
+    ?>
 </body>
 </html>
