@@ -1,6 +1,25 @@
 {
     "title": "Vitaj",
-    "subtitle": "Explore our latest products and enjoy shopping.",
-    "image": "assets/img/brand_01.png"
+    "subtitle": "______________________________.",
+    "image": {
+        "src": "assets/img/brand_01.png",
+        "width": 200,
+        "height": 100
+    },
+    "url": "https://logos-world.net/wp-content/uploads/2020/04/Levis-Logo-1969-2003.png",
+    "message": "Najlepšie ponuky nájdete u nás!",
+    "questions": [
+        {
+            "question": "Aké sú vaše otváracie hodiny?",
+            "answer": "Sme otvorení každý deň od 9:00 do 18:00."
+        },
+        {
+            "question": "Ponúkate dopravu zdarma?",
+            "answer": "Áno, pri objednávkach nad 50€ je doprava zdarma."
+        },
+        {
+            "question": "Môžem vrátiť zakúpený produkt?",
+            "answer": "Samozrejme, máte na to 14 dní od doručenia."
+        }
+    ]
 }
-

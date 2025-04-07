@@ -16,32 +16,28 @@
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="assets/css/fontawesome.min.css">
-<!--
-    
-TemplateMo 559 Zay Shop
-
-https://templatemo.com/tm-559-zay-shop
-
--->
 </head>
 
+<body>
 
+    <?php 
+    require_once("functions.php"); // Funkcie načítame ako prvé
+    require_once("parts/header.php"); // Bez @, ak chýba, zobrazí chybu
+    ?>
 
-<?php 
-if (!@include("parts/header.php")) { 
-    echo "Failed to include parts/footer.php"; 
-}
-?>
+    <main>
+        <?php echo loadBanner("data.json"); ?> 
+        <?php echo loadFAQ("data.json"); ?>
 
-<?php 
-if (!@include("parts/footer.php")) { 
-    echo "Failed to include parts/footer.php"; 
-}
-?>
+        <section>
+            <h1>Vitaj</h1>
+            <p>TEST SLOva ajtaJAJJJ.</p>
+        </section>
+    </main>
 
+    <?php 
+    require_once("parts/footer.php"); 
+    ?>
 
-
-<?php include("functions.php"); ?>
-<?php echo loadBanner("data.json"); ?>
-
+</body>
 </html>

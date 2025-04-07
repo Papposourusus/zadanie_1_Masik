@@ -26,6 +26,7 @@
                     <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="shop.php">Shop</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="QaA.php">Otázky a odpovede</a></li>
                 </ul>
             </div>
         </div>
